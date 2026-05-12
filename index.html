@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nole AI</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=102554&format=png&color=FAB005" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Outfit', 'sans-serif'],
+              cinzel: ['Cinzel', 'serif'],
+            },
+            colors: {
+              aurora: {
+                blue: '#4c6ef5',
+                purple: '#be4bdb',
+                green: '#40c057',
+                gold: '#ffd43b', 
+                dark: '#0f172a', 
+                darker: '#020617', 
+              }
+            },
+            animation: {
+              'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'blob': 'blob 20s infinite',
+            },
+            keyframes: {
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #020617;
+        color: #ffffff;
+        font-family: 'Outfit', sans-serif;
+        overflow-x: hidden;
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.5); 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569; 
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+<script>
+  // Dynamic Favicon with Image Support
+  document.addEventListener('DOMContentLoaded', () => {
+    // -----------------------------------------------------------
+    // PASTE YOUR IMAGE URL HERE
+    // -----------------------------------------------------------
+    // Use the Direct Link (ends in .png) for Imgur
+    const faviconUrl = 'https://i.imgur.com/6QzmEwS.png'; 
+    // -----------------------------------------------------------
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
+    const ctx = canvas.getContext('2d');
+    const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    document.getElementsByTagName('head')[0].appendChild(link);
+
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = faviconUrl;
+
+    let opacity = 0;
+    let direction = 0.05;
+
+    img.onload = () => {
+        function updateFavicon() {
+            ctx.clearRect(0, 0, 32, 32);
+            
+            // Pulse logic
+            opacity += direction;
+            if (opacity >= 1 || opacity <= 0.3) {
+                direction = -direction;
+            }
+
+            // Draw Glow
+            ctx.save();
+            ctx.shadowColor = `rgba(255, 212, 59, ${opacity})`;
+            ctx.shadowBlur = 15;
+            // Draw image smaller to allow room for glow
+            ctx.drawImage(img, 2, 2, 28, 28);
+            ctx.restore();
+
+            link.href = canvas.toDataURL("image/png");
+        }
+        
+        // Update at 4FPS to save CPU on Chromebook
+        setInterval(updateFavicon, 250); 
+    };
+  });
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
